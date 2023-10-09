@@ -1,0 +1,325 @@
+diff --git a/fhi_lib/lib/Makefile b/fhi_lib/lib/Makefile
+index de141bf..96572e4 100644
+--- a/fhi_lib/lib/Makefile
++++ b/fhi_lib/lib/Makefile
+@@ -23,11 +23,11 @@ MYCUSTOMSPACE1='------------------------------------------------------------'
+ ##############################################################
+ #  Tools configuration
+ ##############################################################
+-CC  := icc
+-CPP := icpc
++CC  := gcc #icc
++CPP := g++ #icpc
+ AS := as
+ AR := ar
+-LD := icc
++LD := gcc#icc
+ OBJDUMP := objdump
+ 
+ ifeq ($(SHELL),cmd.exe)
+@@ -95,8 +95,8 @@ CPP_SRC = $(SRC_DIR)/xran_compression.cpp \
+ 	$(SRC_DIR)/xran_bfp_cplane32.cpp \
+ 	$(SRC_DIR)/xran_bfp_cplane64.cpp \
+ 	$(SRC_DIR)/xran_bfp_uplane_9b16rb.cpp \
+-	$(SRC_DIR)/xran_bfp_uplane.cpp \
+-	$(SRC_DIR)/xran_mod_compression.cpp
++	$(SRC_DIR)/xran_bfp_uplane.cpp #\
++#	$(SRC_DIR)/xran_mod_compression.cpp
+ 
+ CPP_SRC_SNC = $(SRC_DIR)/xran_compression_snc.cpp \
+ 	$(SRC_DIR)/xran_bfp_cplane8_snc.cpp \
+@@ -112,12 +112,12 @@ CC_FLAGS += -std=gnu11 -Wall -Wno-deprecated-declarations  \
+         -fPIC \
+ 	-Wall \
+ 	-Wimplicit-function-declaration \
+-	-g -O3 -wd1786 -mcmodel=large
++	-g -O -mavx512bw -march=skylake-avx512 -mtune=skylake-avx512#--wd1786 -mcmodel=large
+ 
+-CPP_FLAGS := -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D_GNU_SOURCE -D_REENTRANT -pipe -no-prec-div \
+-                -no-prec-div -fp-model fast=2 -fPIC \
+-                -no-prec-sqrt  -falign-functions=16 -fast-transcendentals \
+-        -Werror -Wno-unused-variable -std=c++14 -mcmodel=large
++CPP_FLAGS := -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D_GNU_SOURCE -D_REENTRANT -pipe \
++                -fPIC \
++                -falign-functions=16  \
++        -Werror -Wno-unused-variable -std=c++14 -mcmodel=large -mavx512bw -march=skylake-avx512 -mtune=skylake-avx512
+ 
+ INC :=  -I$(API_DIR) -I$(ETH_DIR) -I$(SRC_DIR) -I$(RTE_INC)
+ DEF :=
+@@ -150,8 +150,8 @@ CPP_SNC_OBJTARGETS := $(addprefix $(PROJECT_OBJ_DIR)/,$(CPP_OBJS_SNC))
+ 
+ AS_OBJTARGETS := $(addprefix $(PROJECT_OBJ_DIR)/,$(AS_OBJS))
+ #-qopt-report=5 -qopt-matmul -qopt-report-phase=all
+-CPP_COMP       := -O3 -DNDEBUG  -xcore-avx512 -fPIE -restrict -fasm-blocks
+-CPP_COMP_SNC   := -O3 -DNDEBUG -march=icelake-server -fPIE -restrict -fasm-blocks
++CPP_COMP       := -O3 -DNDEBUG  -fPIE 
++CPP_COMP_SNC   := -O3 -DNDEBUG -march=icelake-server -fPIE 
+ CC_FLAGS_FULL  := $(CC_FLAGS)  $(INC) $(DEF)
+ CPP_FLAGS_FULL := $(CPP_FLAGS) $(CPP_COMP) $(INC) $(DEF)
+ CPP_FLAGS_FULL_SNC := $(CPP_FLAGS) $(CPP_COMP_SNC) $(INC) $(DEF)
+diff --git a/fhi_lib/lib/ethernet/ethdi.c b/fhi_lib/lib/ethernet/ethdi.c
+index b6ba257..98bab19 100644
+--- a/fhi_lib/lib/ethernet/ethdi.c
++++ b/fhi_lib/lib/ethernet/ethdi.c
+@@ -479,11 +479,13 @@ xran_ethdi_init_dpdk_io(char *name, const struct xran_io_cfg *io_cfg,
+                     ctx->tx_ring[i] = rte_ring_create(ring_name, NUM_MBUFS_RING_TRX,
+                     rte_lcore_to_socket_id(*lcore_id), RING_F_SC_DEQ);
+                     PANIC_ON(ctx->tx_ring[i] == NULL, "failed to allocate rx ring");
++		    printf("Created ring %s on core %d\n",ring_name,*lcore_id);
+                     for(qi = 0; qi < io_cfg->num_rxq; qi++) {
+                         snprintf(ring_name, RTE_DIM(ring_name), "%s_%d_%d", "rx_ring_cp", i, qi);
+                         ctx->rx_ring[i][qi] = rte_ring_create(ring_name, NUM_MBUFS_RING_TRX,
+                             rte_lcore_to_socket_id(*lcore_id), RING_F_SP_ENQ);
+                         PANIC_ON(ctx->rx_ring[i][qi] == NULL, "failed to allocate rx ring");
++		        printf("Created ring %s on core %d\n",ring_name,*lcore_id);
+                     }
+                 }
+             } else {
+@@ -553,7 +555,7 @@ xran_ethdi_init_dpdk_io(char *name, const struct xran_io_cfg *io_cfg,
+         ctx->up_dl_pkt_gen_ring[i] = rte_ring_create(ring_name, NUM_MBUFS_RING,
+         rte_lcore_to_socket_id(*lcore_id), /*RING_F_SC_DEQ*/0);
+         PANIC_ON(ctx->up_dl_pkt_gen_ring[i] == NULL, "failed to allocate dl gen ring");
+-        printf("created %s\n", ring_name);
++        printf("created %s on core %d\n", ring_name,*lcore_id);
+     }
+ 
+     return 1;
+diff --git a/fhi_lib/lib/src/xran_bfp_ref.cpp b/fhi_lib/lib/src/xran_bfp_ref.cpp
+index e6d3067..8e0abee 100644
+--- a/fhi_lib/lib/src/xran_bfp_ref.cpp
++++ b/fhi_lib/lib/src/xran_bfp_ref.cpp
+@@ -29,6 +29,7 @@
+ #include <complex>
+ #include <algorithm>
+ #include <limits.h>
++#include <limits>
+ 
+ static int16_t saturateAbs(int16_t inVal)
+ {
+diff --git a/fhi_lib/lib/src/xran_bfp_uplane.cpp b/fhi_lib/lib/src/xran_bfp_uplane.cpp
+index a345df4..21a567c 100644
+--- a/fhi_lib/lib/src/xran_bfp_uplane.cpp
++++ b/fhi_lib/lib/src/xran_bfp_uplane.cpp
+@@ -116,7 +116,7 @@ namespace BFP_UPlane
+     /// Get AVX512 pointer aligned to desired RB
+     const __m512i* rawDataIn = reinterpret_cast<const __m512i*>(dataIn.dataExpanded + numREOffset);
+     /// Apply the exponent shift
+-    const auto compData = _mm512_srai_epi16(*rawDataIn, thisExp);
++    const auto compData = _mm512_srai_epi16(_mm512_loadu_epi16(rawDataIn), thisExp);
+     /// Pack compressed data network byte order
+     const auto compDataBytePacked = networkBytePack(compData);
+     /// Store exponent first
+@@ -201,7 +201,7 @@ namespace BFP_UPlane
+     /// Get AVX512 pointer aligned to desired RB
+     const __m512i* rawDataIn = reinterpret_cast<const __m512i*>(dataIn.dataExpanded + numREOffset);
+     /// Apply the exponent shift
+-    const auto compData = _mm512_srai_epi16(*rawDataIn, thisExp);
++    const auto compData = _mm512_srai_epi16(_mm512_loadu_epi16(rawDataIn), thisExp);
+     /// Store exponent first
+     dataOut->dataCompressed[thisRBExpAddr] = thisExp;
+     /// Now have 1 RB worth of bytes separated into 3 chunks (1 per lane)
+@@ -432,4 +432,4 @@ BlockFloatCompander::BFPExpandUserPlaneAvx512(const CompressedData& dataIn, Expa
+     BFP_UPlane::expandByAllocN<BlockFloatCompander::networkByteUnpack12b>(dataIn, dataOut, k_totNumBytesPerRB12, k_maxExpShift12);
+     break;
+   }
+-}
+\ No newline at end of file
++}
+diff --git a/fhi_lib/lib/src/xran_common.c b/fhi_lib/lib/src/xran_common.c
+index baa673f..bf89bc7 100644
+--- a/fhi_lib/lib/src/xran_common.c
++++ b/fhi_lib/lib/src/xran_common.c
+@@ -688,7 +688,7 @@ process_mbuf(struct rte_mbuf *pkt, void* handle, struct xran_eaxc_info *p_cid)
+         print_err("num_bytes is wrong [%d]\n", num_bytes);
+         return MBUF_FREE;
+     }
+-
++#if 0
+     valid_res = xran_pkt_validate(p_dev_ctx,
+                                 pkt,
+                                 iq_samp_buf,
+@@ -705,6 +705,11 @@ process_mbuf(struct rte_mbuf *pkt, void* handle, struct xran_eaxc_info *p_cid)
+                                 sym_inc,
+                                 rb,
+                                 sect_id);
++        printf("valid_res [%d] ant %u (%u : %u : %u : %u) seq %u num_bytes %d\n", valid_res, Ant_ID, frame_id, subframe_id, slot_id, symb_id, seq.bits.seq_id, num_bytes);
++#endif
++    pCnt->rx_counter++;
++    pCnt->Rx_on_time++;
++    pCnt->Total_msgs_rcvd++;
+ #ifndef FCN_ADAPT
+     if(valid_res != 0) {
+         print_dbg("valid_res is wrong [%d] ant %u (%u : %u : %u : %u) seq %u num_bytes %d\n", valid_res, Ant_ID, frame_id, subframe_id, slot_id, symb_id, seq.seq_id, num_bytes);
+@@ -763,7 +768,6 @@ process_mbuf(struct rte_mbuf *pkt, void* handle, struct xran_eaxc_info *p_cid)
+         if (seq.bits.e_bit == 1) {
+             print_dbg("Completed receiving PRACH symbol %d, size=%d bytes\n",
+                 symb_id, num_bytes);
+-
+             if (symbol_total_bytes[p_dev_ctx->xran_port_id][CC_ID][Ant_ID]) {
+                 int16_t res =  xran_process_prach_sym(p_dev_ctx,
+                                                       pkt,
+@@ -1252,11 +1256,10 @@ int process_ring(struct rte_ring *r, uint16_t ring_id, uint16_t q_id)
+     const uint16_t dequeued = rte_ring_dequeue_burst(r, (void **)mbufs,
+         RTE_DIM(mbufs), &remaining);
+ 
+-    if (!dequeued)
++    if (!dequeued) {
+         return 0;
+-
++    }
+     //t1 = MLogTick();
+-
+     xran_ethdi_filter_packet(mbufs, ring_id, q_id, dequeued);
+     //MLogTask(PID_PROCESS_UP_PKT, t1, MLogTick());
+ 
+@@ -1295,8 +1298,9 @@ int32_t ring_processing_func(void* args)
+ 
+     for (i = 0; i < ctx->io_cfg.num_vfs && i < XRAN_VF_MAX; i++){
+         for(qi = 0; qi < ctx->rxq_per_port[i]; qi++) {
+-            if (process_ring(ctx->rx_ring[i][qi], i, qi))
+-            return 0;
++            /*if (process_ring(ctx->rx_ring[i][qi], i, qi))
++            return 0;*/
++            process_ring(ctx->rx_ring[i][qi],i,qi);		
+         }
+     }
+ 
+diff --git a/fhi_lib/lib/src/xran_common.h b/fhi_lib/lib/src/xran_common.h
+index 3ed75cd..d61fe7f 100644
+--- a/fhi_lib/lib/src/xran_common.h
++++ b/fhi_lib/lib/src/xran_common.h
+@@ -221,7 +221,7 @@ int generate_cpmsg_prach(void *pHandle, struct xran_cp_gen_params *params, struc
+ struct xran_eaxcid_config *xran_get_conf_eAxC(void *pHandle);
+ int xran_register_cb_mbuf2ring(xran_ethdi_mbuf_send_fn mbuf_send_cp, xran_ethdi_mbuf_send_fn mbuf_send_up);
+ 
+-uint16_t xran_alloc_sectionid(void *pHandle, uint8_t dir, uint8_t cc_id, uint8_t ant_id, uint8_t slot_id);
++//uint16_t xran_alloc_sectionid(void *pHandle, uint8_t dir, uint8_t cc_id, uint8_t ant_id, uint8_t slot_id);
+ uint8_t xran_get_seqid(void *pHandle, uint8_t dir, uint8_t cc_id, uint8_t ant_id, uint8_t slot_id);
+ int32_t ring_processing_func(void* arg);
+ int xran_init_prach(struct xran_fh_config* pConf, struct xran_device_ctx * p_xran_dev_ctx);
+diff --git a/fhi_lib/lib/src/xran_compression.cpp b/fhi_lib/lib/src/xran_compression.cpp
+index 112caae..59874dc 100644
+--- a/fhi_lib/lib/src/xran_compression.cpp
++++ b/fhi_lib/lib/src/xran_compression.cpp
+@@ -62,7 +62,7 @@ xranlib_compress(const struct xranlib_compress_request *request,
+         return xranlib_5gnr_mod_compression(&mod_request, &mod_response);
+   }
+     else{
+-        if(_may_i_use_cpu_feature(_FEATURE_AVX512IFMA52)) {
++        if(0/*_may_i_use_cpu_feature(_FEATURE_AVX512IFMA52)*/) {
+             return xranlib_compress_avxsnc(request,response);
+         } else {
+             return xranlib_compress_avx512(request,response);
+@@ -89,7 +89,7 @@ xranlib_decompress(const struct xranlib_decompress_request *request,
+         return xranlib_5gnr_mod_decompression(&mod_request, &mod_response);
+       }
+     else{
+-        if(_may_i_use_cpu_feature(_FEATURE_AVX512IFMA52)) {
++        if(0/*_may_i_use_cpu_feature(_FEATURE_AVX512IFMA52)*/) {
+             return xranlib_decompress_avxsnc(request,response);
+         } else {
+             return xranlib_decompress_avx512(request,response);
+@@ -101,7 +101,7 @@ int32_t
+ xranlib_compress_bfw(const struct xranlib_compress_request *request,
+                         struct xranlib_compress_response *response)
+     {
+-    if(_may_i_use_cpu_feature(_FEATURE_AVX512IFMA52)) {
++    if(0/*_may_i_use_cpu_feature(_FEATURE_AVX512IFMA52)*/) {
+         return xranlib_compress_avxsnc_bfw(request,response);
+     } else {
+         return xranlib_compress_avx512_bfw(request,response);
+@@ -112,7 +112,7 @@ int32_t
+ xranlib_decompress_bfw(const struct xranlib_decompress_request *request,
+     struct xranlib_decompress_response *response)
+   {
+-    if(_may_i_use_cpu_feature(_FEATURE_AVX512IFMA52)) {
++    if(0/*_may_i_use_cpu_feature(_FEATURE_AVX512IFMA52)*/) {
+         return xranlib_decompress_avxsnc_bfw(request,response);
+     } else {
+         return xranlib_decompress_avx512_bfw(request,response);
+diff --git a/fhi_lib/lib/src/xran_cp_proc.h b/fhi_lib/lib/src/xran_cp_proc.h
+index 1d627fd..1fdb0c8 100644
+--- a/fhi_lib/lib/src/xran_cp_proc.h
++++ b/fhi_lib/lib/src/xran_cp_proc.h
+@@ -240,7 +240,7 @@ xran_check_upul_seqid(void *pHandle, uint8_t cc_id, uint8_t ant_id, uint8_t slot
+     if(xran_upul_seq_id_num[xran_port][cc_id][ant_id] == seq_id) { /* expected sequence */
+         return (XRAN_STATUS_SUCCESS);
+     } else {
+-        print_dbg("[%d]expected seqid %u received %u, slot %u, ant %u cc %u", xran_port,  xran_upul_seq_id_num[xran_port][cc_id][ant_id], seq_id, slot_id, ant_id, cc_id);
++        printf/*print_dbg*/("[%d]expected seqid %u received %u, slot %u, ant %u cc %u", xran_port,  xran_upul_seq_id_num[xran_port][cc_id][ant_id], seq_id, slot_id, ant_id, cc_id);
+         xran_upul_seq_id_num[xran_port][cc_id][ant_id] = seq_id; // for next
+         return (-1);
+     }
+diff --git a/fhi_lib/lib/src/xran_main.c b/fhi_lib/lib/src/xran_main.c
+index 89dcc1f..3017c86 100644
+--- a/fhi_lib/lib/src/xran_main.c
++++ b/fhi_lib/lib/src/xran_main.c
+@@ -273,7 +273,7 @@ xran_init_prach(struct xran_fh_config* pConf, struct xran_device_ctx * p_xran_de
+     }
+ 
+     pPrachCPConfig->eAxC_offset = xran_get_num_eAxc(p_xran_dev_ctx);
+-    print_dbg("PRACH eAxC_offset %d\n",  pPrachCPConfig->eAxC_offset);
++    if (pConf->log_level) printf("PRACH eAxC_offset %d\n",  pPrachCPConfig->eAxC_offset);
+ 
+     /* Save some configs for app */
+     pPRACHConfig->startSymId    = pPrachCPConfig->startSymId;
+@@ -1771,8 +1771,9 @@ ring_processing_func_per_port(void* args)
+     for (i = 0; i < ctx->io_cfg.num_vfs && i < XRAN_VF_MAX; i = i+1) {
+         if (ctx->vf2xran_port[i] == port_id) {
+             for(qi = 0; qi < ctx->rxq_per_port[port_id]; qi++){
+-                if (process_ring(ctx->rx_ring[i][qi], i, qi))
+-                    return 0;
++                /*if (process_ring(ctx->rx_ring[i][qi], i, qi))
++                    return 0;*/
++		process_ring(ctx->rx_ring[i][qi],i,qi);
+             }
+         }
+     }
+@@ -1837,8 +1838,8 @@ xran_spawn_workers(void)
+         nWorkerCore = nWorkerCore << 1;
+     }
+ 
+-    extern int _may_i_use_cpu_feature(unsigned __int64);
+-    icx_cpu = _may_i_use_cpu_feature(_FEATURE_AVX512IFMA52);
++//    extern int _may_i_use_cpu_feature(unsigned __int64);
++//    icx_cpu = _may_i_use_cpu_feature(_FEATURE_AVX512IFMA52);
+ 
+     printf("O-XU      %d\n", eth_ctx->io_cfg.id);
+     printf("HW        %d\n", icx_cpu);
+diff --git a/fhi_lib/lib/src/xran_mod_compression.cpp b/fhi_lib/lib/src/xran_mod_compression.cpp
+index 7d4a5d0..e6b53fd 100644
+--- a/fhi_lib/lib/src/xran_mod_compression.cpp
++++ b/fhi_lib/lib/src/xran_mod_compression.cpp
+@@ -747,7 +747,7 @@ int xranlib_5gnr_mod_compression(const struct xranlib_5gnr_mod_compression_reque
+ #ifdef C_Module_Used
+     return (xranlib_5gnr_mod_compression_c(request, response));
+ #else
+-    if(_may_i_use_cpu_feature(_FEATURE_AVX512IFMA52))
++    if(0/*_may_i_use_cpu_feature(_FEATURE_AVX512IFMA52)*/)
+         return (xranlib_5gnr_mod_compression_snc(request, response));
+     else
+         return (xranlib_5gnr_mod_compression_avx512(request, response));
+diff --git a/fhi_lib/lib/src/xran_rx_proc.c b/fhi_lib/lib/src/xran_rx_proc.c
+index 36bd72c..a9f11aa 100644
+--- a/fhi_lib/lib/src/xran_rx_proc.c
++++ b/fhi_lib/lib/src/xran_rx_proc.c
+@@ -107,6 +107,10 @@ int xran_process_prach_sym(void *arg,
+             if(mb)
+                 rte_pktmbuf_free(mb);
+ 
++            mb = p_xran_dev_ctx->sFHPrachRxBbuIoBufCtrlDecomp[tti % XRAN_N_FE_BUF_LEN][CC_ID][Ant_ID].sBufferList.pBuffers[symb_id_offset].pCtrl;
++            if(mb)
++                rte_pktmbuf_free(mb);
++
+             if(p_xran_dev_ctx->fh_cfg.ru_conf.byteOrder == XRAN_CPU_LE_BYTE_ORDER) {
+                 int idx = 0;
+                 uint16_t *psrc = (uint16_t *)iq_data_start;
+@@ -121,7 +125,7 @@ int xran_process_prach_sym(void *arg,
+             p_xran_dev_ctx->sFHPrachRxBbuIoBufCtrlDecomp[tti % XRAN_N_FE_BUF_LEN][CC_ID][Ant_ID].sBufferList.pBuffers[symb_id_offset].pCtrl = mbuf;
+ 
+             *mb_free = MBUF_KEEP;
+-            }
++	}
+         else {
+             //print_err("pos %p iq_data_start %p size %d\n",pos, iq_data_start, size);
+             print_err("iq_data_start %p size %d\n", iq_data_start, size);

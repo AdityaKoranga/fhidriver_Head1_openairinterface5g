@@ -1,0 +1,62 @@
+diff --git a/fhi_lib/test/common/common_typedef_xran.h b/fhi_lib/test/common/common_typedef_xran.h
+index 9e84bd3..65621f5 100644
+--- a/fhi_lib/test/common/common_typedef_xran.h
++++ b/fhi_lib/test/common/common_typedef_xran.h
+@@ -88,7 +88,7 @@ typedef enum{
+     CPU_GENERIC, /*!< C */
+     SSE4_2,      /*!< SSE4_2 */
+     AVX,         /*!< AVX */
+-    AVX2,        /*!< AVX2 */
++    AVX_2,        /*!< AVX2 */
+     AVX_512,     /*!< AVX512 */
+ }instruction_cpu_support;
+ 
+diff --git a/fhi_lib/test/common/common.hpp b/fhi_lib/test/common/common.hpp
+index 9b01b06..64a1baf 100644
+--- a/fhi_lib/test/common/common.hpp
++++ b/fhi_lib/test/common/common.hpp
+@@ -31,7 +31,7 @@
+ #include <rte_malloc.h>
+ #endif
+ 
+-#include "gtest/gtest.h"
++//#include "gtest/gtest.h"
+ 
+ #include "common_typedef_xran.h"
+ 
+@@ -106,7 +106,7 @@ json read_json_from_file(const std::string &filename);
+     \return Pointer to the allocated memory with data from the file.
+     \throws std::runtime_error when memory cannot be allocated.
+ */
+-char* read_data_to_aligned_array(const std::string &filename);
++//char* read_data_to_aligned_array(const std::string &filename);
+ 
+ /*!
+     \brief Measure the TSC on the machine
+@@ -140,6 +140,7 @@ unsigned long tsc_tick();
+     values, e.g. 1, 0.001, 5e-05, etc. or filename. Depends on the get type test framework can either
+     read the value or load data from the file - and it happens automatically (*pff* MAGIC!).
+ */
++#if 0
+ class KernelTests : public testing::TestWithParam<unsigned>
+ {
+ public:
+@@ -827,5 +828,6 @@ T* generate_random_real_numbers(const long size, const unsigned alignment, const
+ 
+     return generate_random_numbers<T, std::uniform_real_distribution<T>>(size, alignment, distribution);
+ }
++#endif
+ 
+ #endif //XRANLIB_COMMON_HPP
+diff --git a/fhi_lib/lib/src/xran_common.h b/fhi_lib/lib/src/xran_common.h
+index 4f2928d..5028376 100644
+--- a/fhi_lib/lib/src/xran_common.h
++++ b/fhi_lib/lib/src/xran_common.h
+@@ -351,6 +351,7 @@ uint8_t xran_get_num_ant_elm(void *pHandle);
+ enum xran_category xran_get_ru_category(void *pHandle);
+ 
+ struct xran_device_ctx *xran_dev_get_ctx(void);
++int xran_is_prach_slot(uint32_t subframe_id, uint32_t slot_id);
+ 
+ int xran_register_cb_mbuf2ring(xran_ethdi_mbuf_send_fn mbuf_send_cp, xran_ethdi_mbuf_send_fn mbuf_send_up);
+ 

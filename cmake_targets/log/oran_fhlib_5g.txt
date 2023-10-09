@@ -1,0 +1,460 @@
+[1/7] Building C object CMakeFiles/oran_fhlib_5g.dir/radio/ETHERNET/oran/5g/common-E.c.o
+In file included from /home/two/phy/fhi_lib/lib/build/../api/xran_pkt_up.h:43,
+                 from ../../../radio/ETHERNET/oran/5g/common.h:26,
+                 from ../../../radio/ETHERNET/oran/5g/common-E.c:25:
+/home/two/phy/fhi_lib/lib/build/../api/xran_pkt.h:340:1: warning: alignment 1 of ‘struct xran_pkt_comm_hdr’ is less than 2 [-Wpacked-not-aligned]
+  340 | } __rte_packed;
+      | ^
+In file included from ../../../radio/ETHERNET/oran/5g/common.h:26,
+                 from ../../../radio/ETHERNET/oran/5g/common-E.c:25:
+/home/two/phy/fhi_lib/lib/build/../api/xran_pkt_up.h:184:1: warning: alignment 1 of ‘struct eth_xran_up_pkt_hdr’ is less than 2 [-Wpacked-not-aligned]
+  184 | }__rte_packed;
+      | ^
+/home/two/phy/fhi_lib/lib/build/../api/xran_pkt_up.h:190:1: warning: alignment 1 of ‘struct eth_xran_up_pkt_hdr_comp’ is less than 2 [-Wpacked-not-aligned]
+  190 | }__rte_packed;
+      | ^
+In file included from ../../../radio/ETHERNET/oran/5g/common-E.c:30:
+/home/two/phy/fhi_lib/lib/build/../api/xran_up_api.h:94:12: warning: inline function ‘xran_prepare_iq_symbol_portion’ declared but never defined
+   94 | inline int xran_prepare_iq_symbol_portion(
+      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[2/7] Building C object CMakeFiles/oran_fhlib_5g.dir/radio/ETHERNET/oran/5g/oran_isolate.c.o
+../../../radio/ETHERNET/oran/5g/oran_isolate.c: In function ‘oran_fh_if4p5_south_in’:
+../../../radio/ETHERNET/oran/5g/oran_isolate.c:219:21: warning: assignment to ‘int **’ from incompatible pointer type ‘int *’ [-Wincompatible-pointer-types]
+  219 |   ru_info.prach_buf = (int *)ru->prach_rxsigF[0];//index: [prach_oca][ant_id]
+      |                     ^
+../../../radio/ETHERNET/oran/5g/oran_isolate.c:214:18: warning: variable ‘sync’ set but not used [-Wunused-but-set-variable]
+  214 |   static uint8_t sync = 0;
+      |                  ^~~~
+../../../radio/ETHERNET/oran/5g/oran_isolate.c:213:7: warning: unused variable ‘antenna’ [-Wunused-variable]
+  213 |   int antenna;
+      |       ^~~~~~~
+../../../radio/ETHERNET/oran/5g/oran_isolate.c:212:12: warning: unused variable ‘rxdata’ [-Wunused-variable]
+  212 |   int32_t *rxdata;
+      |            ^~~~~~
+../../../radio/ETHERNET/oran/5g/oran_isolate.c:211:7: warning: unused variable ‘symbol’ [-Wunused-variable]
+  211 |   int symbol;
+      |       ^~~~~~
+../../../radio/ETHERNET/oran/5g/oran_isolate.c:210:21: warning: unused variable ‘s’ [-Wunused-variable]
+  210 |   oran_eth_state_t *s = ru->ifdevice.priv;
+      |                     ^
+../../../radio/ETHERNET/oran/5g/oran_isolate.c: In function ‘oran_fh_if4p5_south_out’:
+../../../radio/ETHERNET/oran/5g/oran_isolate.c:264:21: warning: unused variable ‘s’ [-Wunused-variable]
+  264 |   oran_eth_state_t *s = device->priv;
+      |                     ^
+../../../radio/ETHERNET/oran/5g/oran_isolate.c: In function ‘transport_init’:
+../../../radio/ETHERNET/oran/5g/oran_isolate.c:328:32: warning: assignment to ‘int (*)(openair0_device *, openair0_config_t *)’ {aka ‘int (*)(struct openair0_device_t *, openair0_config_t *)’} from incompatible pointer type ‘int (*)(openair0_device *, openair0_config_t *, int)’ {aka ‘int (*)(struct openair0_device_t *, openair0_config_t *, int)’} [-Wincompatible-pointer-types]
+  328 |   device->trx_set_freq_func    = trx_oran_set_freq;
+      |                                ^
+../../../radio/ETHERNET/oran/5g/oran_isolate.c:363:13: warning: passing argument 1 of ‘make_args’ from incompatible pointer type [-Wincompatible-pointer-types]
+  363 |   make_args(&argv,&argc,openair0_cfg->sdr_addrs);
+      |             ^~~~~
+      |             |
+      |             char * (*)[20]
+../../../radio/ETHERNET/oran/5g/oran_isolate.c:293:23: note: expected ‘char **’ but argument is of type ‘char * (*)[20]’
+  293 | void make_args(char **argv, int *argc, char *string)
+      |                ~~~~~~~^~~~
+../../../radio/ETHERNET/oran/5g/oran_isolate.c:367:20: warning: implicit declaration of function ‘oai_main’ [-Wimplicit-function-declaration]
+  367 |   eth->oran_priv = oai_main(argc,argv);
+      |                    ^~~~~~~~
+../../../radio/ETHERNET/oran/5g/oran_isolate.c:367:18: warning: assignment to ‘void *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+  367 |   eth->oran_priv = oai_main(argc,argv);
+      |                  ^
+../../../radio/ETHERNET/oran/5g/oran_isolate.c:354:21: warning: unused variable ‘s’ [-Wunused-variable]
+  354 |   oran_eth_state_t *s = eth;
+      |                     ^
+../../../radio/ETHERNET/oran/5g/oran_isolate.c: In function ‘make_args’:
+../../../radio/ETHERNET/oran/5g/oran_isolate.c:307:5: warning: ‘strcpy’ writing one too many bytes into a region of a size that depends on ‘strlen’ [-Wstringop-overflow=]
+  307 |     strcpy(argv[i++], tmp);
+      |     ^~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/oran_isolate.c:306:15: note: destination object of size [0, 1023] allocated by ‘malloc’
+  306 |     argv[i] = malloc(strlen(tmp));
+      |               ^~~~~~~~~~~~~~~~~~~
+[3/7] Building C object CMakeFiles/oran_fhlib_5g.dir/radio/ETHERNET/oran/5g/sample-app-E.c.o
+In file included from /home/two/phy/fhi_lib/lib/build/../api/xran_pkt_up.h:43,
+                 from ../../../radio/ETHERNET/oran/5g/common.h:26,
+                 from ../../../radio/ETHERNET/oran/5g/sample-app-E.c:48:
+/home/two/phy/fhi_lib/lib/build/../api/xran_pkt.h:340:1: warning: alignment 1 of ‘struct xran_pkt_comm_hdr’ is less than 2 [-Wpacked-not-aligned]
+  340 | } __rte_packed;
+      | ^
+In file included from ../../../radio/ETHERNET/oran/5g/common.h:26,
+                 from ../../../radio/ETHERNET/oran/5g/sample-app-E.c:48:
+/home/two/phy/fhi_lib/lib/build/../api/xran_pkt_up.h:184:1: warning: alignment 1 of ‘struct eth_xran_up_pkt_hdr’ is less than 2 [-Wpacked-not-aligned]
+  184 | }__rte_packed;
+      | ^
+/home/two/phy/fhi_lib/lib/build/../api/xran_pkt_up.h:190:1: warning: alignment 1 of ‘struct eth_xran_up_pkt_hdr_comp’ is less than 2 [-Wpacked-not-aligned]
+  190 | }__rte_packed;
+      | ^
+../../../radio/ETHERNET/oran/5g/sample-app-E.c: In function ‘app_version_print’:
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:177:23: warning: variable ‘nLen’ set but not used [-Wunused-but-set-variable]
+  177 |     uint32_t          nLen;
+      |                       ^~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c: In function ‘app_parse_cmdline_args’:
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:235:14: warning: variable ‘pInt’ set but not used [-Wunused-but-set-variable]
+  235 |     int32_t *pInt;
+      |              ^~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:232:13: warning: unused variable ‘ret’ [-Wunused-variable]
+  232 |     int32_t ret = 0;
+      |             ^~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c: In function ‘app_setup_o_xu_buffers’:
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:475:10: warning: unused variable ‘filename’ [-Wunused-variable]
+  475 |     char filename[256];
+      |          ^~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c: In function ‘app_set_main_core’:
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:1056:9: warning: suggest parentheses around assignment used as truth value [-Wparentheses]
+ 1056 |     if (result = pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), &cpuset))
+      |         ^~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c: In function ‘oai_main’:
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:1266:14: warning: variable ‘nActiveCoreMask’ set but not used [-Wunused-but-set-variable]
+ 1266 |     uint64_t nActiveCoreMask[MAX_BBU_POOL_CORE_MASK] = {0};
+      |              ^~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:1118:11: warning: unused variable ‘nUsedPercent’ [-Wunused-variable]
+ 1118 |     float nUsedPercent;
+      |           ^~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:1117:14: warning: unused variable ‘nCoreUsedNum’ [-Wunused-variable]
+ 1117 |     uint32_t nCoreUsedNum[64];
+      |              ^~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:1116:14: warning: unused variable ‘nCoresUsed’ [-Wunused-variable]
+ 1116 |     uint32_t nCoresUsed;
+      |              ^~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:1115:14: warning: unused variable ‘nUsedTime’ [-Wunused-variable]
+ 1115 |     uint64_t nUsedTime;
+      |              ^~~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:1114:14: warning: unused variable ‘nTotalTime’ [-Wunused-variable]
+ 1114 |     uint64_t nTotalTime;
+      |              ^~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:1111:24: warning: unused variable ‘xran_curr_if_state’ [-Wunused-variable]
+ 1111 |     enum xran_if_state xran_curr_if_state = XRAN_INIT;
+      |                        ^~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:1107:10: warning: unused variable ‘filename’ [-Wunused-variable]
+ 1107 |     char filename[256];
+      |          ^~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:1106:10: warning: unused variable ‘lcore_id’ [-Wunused-variable]
+ 1106 |     int  lcore_id = 0;
+      |          ^~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:1104:12: warning: unused variable ‘len’ [-Wunused-variable]
+ 1104 |     int j, len;
+      |            ^~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:1104:9: warning: unused variable ‘j’ [-Wunused-variable]
+ 1104 |     int j, len;
+      |         ^
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:1103:9: warning: unused variable ‘i’ [-Wunused-variable]
+ 1103 |     int i;
+      |         ^
+../../../radio/ETHERNET/oran/5g/sample-app-E.c: In function ‘app_parse_all_cfgs’:
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:427:17: warning: ‘strncat’ specified bound 1 equals source length [-Wstringop-overflow=]
+  427 |                 strncat(filename, "/", 1);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+At top level:
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:99:1: warning: ‘app_print_menu’ defined but not used [-Wunused-function]
+   99 | app_print_menu()
+      | ^~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:88:17: warning: ‘tsc_resolution_hz’ defined but not used [-Wunused-variable]
+   88 | static uint64_t tsc_resolution_hz = 0;
+      |                 ^~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:85:23: warning: ‘state’ defined but not used [-Wunused-variable]
+   85 | static enum app_state state;
+      |                       ^~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c: In function ‘app_parse_all_cfgs.part.0’:
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:399:17: warning: ‘strncpy’ specified bound depends on the length of the source argument [-Wstringop-truncation]
+  399 |                 strncpy(filename, p_args->usecase_file, len);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:394:19: note: length computed here
+  394 |             len = strlen(p_args->usecase_file) + 1;
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:413:21: warning: ‘strncpy’ specified bound depends on the length of the source argument [-Wstringop-truncation]
+  413 |                     strncpy(&p_use_cfg->o_xu_pcie_bus_addr[o_xu_id][vf_num][0], &p_args->vf_pcie_addr[o_xu_id][vf_num][0], strlen(&p_args->vf_pcie_addr[o_xu_id][vf_num][0]));
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:425:21: warning: ‘strncpy’ specified bound depends on the length of the source argument [-Wstringop-truncation]
+  425 |                     strncpy(filename, dir, len);
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:420:23: note: length computed here
+  420 |                 len = strlen(dir) + 1;
+      |                       ^~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:432:21: warning: ‘strncat’ specified bound depends on the length of the source argument [-Wstringop-overflow=]
+  432 |                     strncat(filename, p_use_cfg->o_xu_cfg_file[o_xu_id], RTE_MIN (len, strlen(p_use_cfg->o_xu_cfg_file[o_xu_id])));
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/sample-app-E.c:431:27: note: length computed here
+  431 |                 if (len > strlen(p_use_cfg->o_xu_cfg_file[o_xu_id])) {
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[4/7] Building C object CMakeFiles/oran_fhlib_5g.dir/radio/ETHERNET/oran/5g/oaioran.c.o
+In file included from /home/two/phy/fhi_lib/lib/build/../api/xran_pkt_up.h:43,
+                 from ../../../radio/ETHERNET/oran/5g/common.h:26,
+                 from ../../../radio/ETHERNET/oran/5g/oaioran.c:26:
+/home/two/phy/fhi_lib/lib/build/../api/xran_pkt.h:340:1: warning: alignment 1 of ‘struct xran_pkt_comm_hdr’ is less than 2 [-Wpacked-not-aligned]
+  340 | } __rte_packed;
+      | ^
+In file included from ../../../radio/ETHERNET/oran/5g/common.h:26,
+                 from ../../../radio/ETHERNET/oran/5g/oaioran.c:26:
+/home/two/phy/fhi_lib/lib/build/../api/xran_pkt_up.h:184:1: warning: alignment 1 of ‘struct eth_xran_up_pkt_hdr’ is less than 2 [-Wpacked-not-aligned]
+  184 | }__rte_packed;
+      | ^
+/home/two/phy/fhi_lib/lib/build/../api/xran_pkt_up.h:190:1: warning: alignment 1 of ‘struct eth_xran_up_pkt_hdr_comp’ is less than 2 [-Wpacked-not-aligned]
+  190 | }__rte_packed;
+      | ^
+../../../radio/ETHERNET/oran/5g/oaioran.c: In function ‘read_prach_data’:
+../../../radio/ETHERNET/oran/5g/oaioran.c:159:26: warning: unused variable ‘mb’ [-Wunused-variable]
+  159 |         struct rte_mbuf *mb;
+      |                          ^~
+In file included from ../../../radio/ETHERNET/oran/5g/oaioran.c:33:
+../../../radio/ETHERNET/oran/5g/oaioran.c: At top level:
+/home/two/phy/fhi_lib/lib/build/../src/xran_common.h:185:16: warning: inline function ‘prepare_sf_slot_sym’ declared but never defined
+  185 | inline int32_t prepare_sf_slot_sym (enum xran_pkt_dir direction,
+      |                ^~~~~~~~~~~~~~~~~~~
+In file included from /home/two/phy/fhi_lib/lib/build/../src/xran_dev.h:44,
+                 from /home/two/phy/fhi_lib/lib/build/../src/xran_common.h:47,
+                 from ../../../radio/ETHERNET/oran/5g/oaioran.c:33:
+/home/two/phy/fhi_lib/lib/build/../api/xran_up_api.h:94:12: warning: inline function ‘xran_prepare_iq_symbol_portion’ declared but never defined
+   94 | inline int xran_prepare_iq_symbol_portion(
+      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ../../../radio/ETHERNET/oran/5g/oaioran.c:33:
+/home/two/phy/fhi_lib/lib/build/../src/xran_common.h:192:23: warning: ‘prepare_symbol_opt’ declared ‘static’ but never defined [-Wunused-function]
+  192 | static inline int32_t prepare_symbol_opt(enum xran_pkt_dir direction,
+      |                       ^~~~~~~~~~~~~~~~~~
+[5/7] Building C object CMakeFiles/oran_fhlib_5g.dir/radio/ETHERNET/oran/5g/config-E.c.o
+In file included from ../../../radio/ETHERNET/oran/5g/config.h:32,
+                 from ../../../radio/ETHERNET/oran/5g/config-E.c:29:
+/home/two/phy/fhi_lib/lib/build/../api/xran_pkt.h:340:1: warning: alignment 1 of ‘struct xran_pkt_comm_hdr’ is less than 2 [-Wpacked-not-aligned]
+  340 | } __rte_packed;
+      | ^
+In file included from ../../../radio/ETHERNET/oran/5g/common.h:26,
+                 from ../../../radio/ETHERNET/oran/5g/config-E.c:30:
+/home/two/phy/fhi_lib/lib/build/../api/xran_pkt_up.h:184:1: warning: alignment 1 of ‘struct eth_xran_up_pkt_hdr’ is less than 2 [-Wpacked-not-aligned]
+  184 | }__rte_packed;
+      | ^
+/home/two/phy/fhi_lib/lib/build/../api/xran_pkt_up.h:190:1: warning: alignment 1 of ‘struct eth_xran_up_pkt_hdr_comp’ is less than 2 [-Wpacked-not-aligned]
+  190 | }__rte_packed;
+      | ^
+../../../radio/ETHERNET/oran/5g/config-E.c: In function ‘fillConfigStruct’:
+../../../radio/ETHERNET/oran/5g/config-E.c:219:13: warning: unused variable ‘parse_res’ [-Wunused-variable]
+  219 |     int32_t parse_res = 0;
+      |             ^~~~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c: In function ‘fillUsecaseStruct’:
+../../../radio/ETHERNET/oran/5g/config-E.c:731:13: warning: unused variable ‘parse_res’ [-Wunused-variable]
+  731 |     int32_t parse_res = 0;
+      |             ^~~~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c: In function ‘parseConfigFile’:
+../../../radio/ETHERNET/oran/5g/config-E.c:1084:44: warning: statement with no effect [-Wunused-value]
+ 1084 |             inputLine[strlen(inputLine)-1] == '\0';
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c: In function ‘parseSlotConfigFile’:
+../../../radio/ETHERNET/oran/5g/config-E.c:1141:13: warning: unused variable ‘ant_idx’ [-Wunused-variable]
+ 1141 |     int32_t ant_idx = 0;
+      |             ^~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c:1140:13: warning: unused variable ‘cc_idx’ [-Wunused-variable]
+ 1140 |     int32_t cc_idx = 0;
+      |             ^~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c: In function ‘parseFileViaCb’:
+../../../radio/ETHERNET/oran/5g/config-E.c:1212:44: warning: statement with no effect [-Wunused-value]
+ 1212 |             inputLine[strlen(inputLine)-1] == '\0';
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c: In function ‘parseUsecaseFile’:
+../../../radio/ETHERNET/oran/5g/config-E.c:1295:44: warning: statement with no effect [-Wunused-value]
+ 1295 |             inputLine[strlen(inputLine)-1] == '\0';
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c: In function ‘parseSlotConfigFile’:
+../../../radio/ETHERNET/oran/5g/config-E.c:1156:13: warning: ‘strncat’ specified bound 1 equals source length [-Wstringop-overflow=]
+ 1156 |             strncat(filename, "/", 1);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+At top level:
+../../../radio/ETHERNET/oran/5g/config-E.c:198:13: warning: ‘init_config’ defined but not used [-Wunused-function]
+  198 | static void init_config(RuntimeConfig* config)
+      |             ^~~~~~~~~~~
+In function ‘fillConfigStruct’,
+    inlined from ‘parseConfigFile’ at ../../../radio/ETHERNET/oran/5g/config-E.c:1116:21:
+../../../radio/ETHERNET/oran/5g/config-E.c:504:13: warning: ‘strncpy’ output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]
+  504 |             strncpy(&config->prach_file[ant_num][0], value, strlen(value));
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c:466:13: warning: ‘strncpy’ output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]
+  466 |             strncpy(&config->SlotNum_file[direction][slot_num][0], value, strlen(value));
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c:455:13: warning: ‘strncpy’ output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]
+  455 |             strncpy(&config->SlotNum_file[direction][slot_num][0], value, strlen(value));
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c:444:13: warning: ‘strncpy’ output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]
+  444 |             strncpy(&config->ul_srs_file[srs_ant][0], value, strlen(value));
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c:435:13: warning: ‘strncpy’ output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]
+  435 |             strncpy(&config->ul_bfw_file[ue_num][0], value, strlen(value));
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c:426:13: warning: ‘strncpy’ output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]
+  426 |             strncpy(&config->dl_bfw_file[ue_num][0], value, strlen(value));
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c:417:13: warning: ‘strncpy’ output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]
+  417 |             strncpy(&config->ant_file[ant_num][0], value, strlen(value));
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c: In function ‘parseSlotConfigFile’:
+../../../radio/ETHERNET/oran/5g/config-E.c:1154:17: warning: ‘strncpy’ specified bound depends on the length of the source argument [-Wstringop-truncation]
+ 1154 |                 strncpy(filename, dir, len);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c:1149:19: note: length computed here
+ 1149 |             len = strlen(dir) + 1;
+      |                   ^~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c:1161:17: warning: ‘strncat’ specified bound depends on the length of the source argument [-Wstringop-overflow=]
+ 1161 |                 strncat(filename, config->SlotNum_file[direction][slot_idx], RTE_MIN (len, strlen(config->SlotNum_file[direction][slot_idx])));
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c:1160:22: note: length computed here
+ 1160 |             if(len > strlen(config->SlotNum_file[direction][slot_idx])){
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘fillUsecaseStruct’,
+    inlined from ‘parseUsecaseFile’ at ../../../radio/ETHERNET/oran/5g/config-E.c:1327:21:
+../../../radio/ETHERNET/oran/5g/config-E.c:820:13: warning: ‘strncpy’ output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]
+  820 |             strncpy(&config->o_xu_pcie_bus_addr[o_xu_id][vf_num][0], value, strlen(value));
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/config-E.c:783:13: warning: ‘strncpy’ output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]
+  783 |             strncpy(&config->o_xu_cfg_file[o_xu_id][0], value, strlen(value));
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[6/7] Building C object CMakeFiles/oran_fhlib_5g.dir/radio/ETHERNET/oran/5g/app_io_fh_xran-E.c.o
+In file included from /home/two/phy/fhi_lib/lib/build/../api/xran_pkt_up.h:43,
+                 from ../../../radio/ETHERNET/oran/5g/common.h:26,
+                 from ../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:31:
+/home/two/phy/fhi_lib/lib/build/../api/xran_pkt.h:340:1: warning: alignment 1 of ‘struct xran_pkt_comm_hdr’ is less than 2 [-Wpacked-not-aligned]
+  340 | } __rte_packed;
+      | ^
+In file included from ../../../radio/ETHERNET/oran/5g/common.h:26,
+                 from ../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:31:
+/home/two/phy/fhi_lib/lib/build/../api/xran_pkt_up.h:184:1: warning: alignment 1 of ‘struct eth_xran_up_pkt_hdr’ is less than 2 [-Wpacked-not-aligned]
+  184 | }__rte_packed;
+      | ^
+/home/two/phy/fhi_lib/lib/build/../api/xran_pkt_up.h:190:1: warning: alignment 1 of ‘struct eth_xran_up_pkt_hdr_comp’ is less than 2 [-Wpacked-not-aligned]
+  190 | }__rte_packed;
+      | ^
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c: In function ‘app_io_xran_sfidx_get’:
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:108:14: warning: unused variable ‘nXranTime’ [-Wunused-variable]
+  108 |     uint32_t nXranTime  = xran_get_slot_idx(0, &nFrameIdx, &nSubframeIdx, &nSlotIdx, &nSecond);
+      |              ^~~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c: In function ‘app_io_xran_fh_rx_callback’:
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:160:5: warning: implicit declaration of function ‘oai_xran_fh_rx_callback’; did you mean ‘app_io_xran_fh_rx_callback’? [-Wimplicit-function-declaration]
+  160 |     oai_xran_fh_rx_callback(pCallbackTag, status);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~
+      |     app_io_xran_fh_rx_callback
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:137:18: warning: variable ‘nSlotIdx’ set but not used [-Wunused-but-set-variable]
+  137 |     int32_t sym, nSlotIdx;
+      |                  ^~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:137:13: warning: variable ‘sym’ set but not used [-Wunused-but-set-variable]
+  137 |     int32_t sym, nSlotIdx;
+      |             ^~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:136:13: warning: variable ‘nCellIdx’ set but not used [-Wunused-but-set-variable]
+  136 |     int32_t nCellIdx;
+      |             ^~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:135:13: warning: unused variable ‘sfIdx’ [-Wunused-variable]
+  135 |     int32_t sfIdx = app_io_xran_sfidx_get(nNrOfSlotInSf);
+      |             ^~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c: In function ‘app_io_xran_dl_tti_call_back’:
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:213:5: warning: implicit declaration of function ‘oai_physide_dl_tti_call_back’ [-Wimplicit-function-declaration]
+  213 |     oai_physide_dl_tti_call_back(param);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c: In function ‘app_io_xran_interface’:
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:530:34: warning: unused variable ‘ptr_temp’ [-Wunused-variable]
+  530 |                         uint8_t *ptr_temp = (uint8_t *)ptr;
+      |                                  ^~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:291:15: warning: unused variable ‘u8dptr’ [-Wunused-variable]
+  291 |     uint8_t  *u8dptr;
+      |               ^~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:290:15: warning: unused variable ‘u16dptr’ [-Wunused-variable]
+  290 |     uint16_t *u16dptr;
+      |               ^~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c: In function ‘app_io_xran_iq_content_init_cp_rx’:
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1035:33: warning: unused variable ‘i’ [-Wunused-variable]
+ 1035 |                         int32_t i;
+      |                                 ^
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1034:34: warning: variable ‘ptr’ set but not used [-Wunused-but-set-variable]
+ 1034 |                         int16_t *ptr = NULL;
+      |                                  ^~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1033:33: warning: unused variable ‘idRb’ [-Wunused-variable]
+ 1033 |                         int32_t idRb = 0;
+      |                                 ^~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1008:11: warning: unused variable ‘ptr’ [-Wunused-variable]
+ 1008 |     void *ptr = NULL;
+      |           ^~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1007:11: warning: unused variable ‘pos’ [-Wunused-variable]
+ 1007 |     char *pos = NULL;
+      |           ^~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1005:13: warning: unused variable ‘status’ [-Wunused-variable]
+ 1005 |     int32_t status = 0;
+      |             ^~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c: In function ‘app_io_xran_iq_content_init’:
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1360:26: warning: unused variable ‘pRbMap’ [-Wunused-variable]
+ 1360 |     struct xran_prb_map *pRbMap = NULL;
+      |                          ^~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1359:11: warning: unused variable ‘pos’ [-Wunused-variable]
+ 1359 |     char *pos = NULL;
+      |           ^~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1353:29: warning: unused variable ‘pXranInit’ [-Wunused-variable]
+ 1353 |     struct xran_fh_init    *pXranInit = &app_io_xran_fh_init;
+      |                             ^~~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1350:15: warning: unused variable ‘u8dptr’ [-Wunused-variable]
+ 1350 |     uint8_t  *u8dptr;
+      |               ^~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1349:15: warning: unused variable ‘u16dptr’ [-Wunused-variable]
+ 1349 |     uint16_t *u16dptr;
+      |               ^~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1348:15: warning: unused variable ‘u32dptr’ [-Wunused-variable]
+ 1348 |     uint32_t *u32dptr;
+      |               ^~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1347:11: warning: unused variable ‘ptr’ [-Wunused-variable]
+ 1347 |     void *ptr;
+      |           ^~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1345:16: warning: unused variable ‘sym’ [-Wunused-variable]
+ 1345 |     uint8_t    sym         = 0;
+      |                ^~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1344:16: warning: unused variable ‘slot_id’ [-Wunused-variable]
+ 1344 |     uint8_t    slot_id     = 0;
+      |                ^~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1343:16: warning: unused variable ‘subframe_id’ [-Wunused-variable]
+ 1343 |     uint8_t    subframe_id = 0;
+      |                ^~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1342:16: warning: unused variable ‘frame_id’ [-Wunused-variable]
+ 1342 |     uint8_t    frame_id    = 0;
+      |                ^~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1337:13: warning: variable ‘nSectorIndex’ set but not used [-Wunused-but-set-variable]
+ 1337 |     int32_t nSectorIndex[XRAN_MAX_SECTOR_NR];
+      |             ^~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c: In function ‘app_io_xran_if_stop’:
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1464:29: warning: unused variable ‘eInterfaceType’ [-Wunused-variable]
+ 1464 |     SWXRANInterfaceTypeEnum eInterfaceType;
+      |                             ^~~~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c: In function ‘app_io_xran_iq_content_get’:
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1553:45: warning: variable ‘payload_len’ set but not used [-Wunused-but-set-variable]
+ 1553 |                                     int32_t payload_len = 0;
+      |                                             ^~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1604:53: warning: variable ‘payload_len’ set but not used [-Wunused-but-set-variable]
+ 1604 |                                             int32_t payload_len = 0;
+      |                                                     ^~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1661:49: warning: variable ‘payload_len’ set but not used [-Wunused-but-set-variable]
+ 1661 |                                         int32_t payload_len = 0;
+      |                                                 ^~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1836:57: warning: variable ‘payload_len’ set but not used [-Wunused-but-set-variable]
+ 1836 |                                                 int32_t payload_len = 0;
+      |                                                         ^~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1494:15: warning: unused variable ‘u8dptr’ [-Wunused-variable]
+ 1494 |     uint8_t  *u8dptr;
+      |               ^~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1493:15: warning: unused variable ‘u16dptr’ [-Wunused-variable]
+ 1493 |     uint16_t *u16dptr;
+      |               ^~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1489:16: warning: unused variable ‘idxDesc’ [-Wunused-variable]
+ 1489 |     uint16_t   idxDesc     = 0;
+      |                ^~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1488:16: warning: unused variable ‘sym’ [-Wunused-variable]
+ 1488 |     uint8_t    sym         = 0;
+      |                ^~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1487:16: warning: unused variable ‘slot_id’ [-Wunused-variable]
+ 1487 |     uint8_t    slot_id     = 0;
+      |                ^~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1486:16: warning: unused variable ‘subframe_id’ [-Wunused-variable]
+ 1486 |     uint8_t    subframe_id = 0;
+      |                ^~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1485:16: warning: unused variable ‘frame_id’ [-Wunused-variable]
+ 1485 |     uint8_t    frame_id    = 0;
+      |                ^~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1480:13: warning: variable ‘nSectorIndex’ set but not used [-Wunused-but-set-variable]
+ 1480 |     int32_t nSectorIndex[XRAN_MAX_SECTOR_NR];
+      |             ^~~~~~~~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:1479:19: warning: unused variable ‘status’ [-Wunused-variable]
+ 1479 |     xran_status_t status;
+      |                   ^~~~~~
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c: In function ‘app_io_xran_interface’:
+../../../radio/ETHERNET/oran/5g/app_io_fh_xran-E.c:359:13: warning: ‘k’ may be used uninitialized [-Wmaybe-uninitialized]
+  359 |             printf ("get sector instance failed %d for XRAN nInstanceNum[%d] %d\n",k, psBbuIo->nInstanceNum[o_xu_id], o_xu_id);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[7/7] Linking C shared module liboran_fhlib_5g.so
